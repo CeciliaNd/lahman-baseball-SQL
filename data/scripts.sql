@@ -38,7 +38,26 @@ SELECT pos as Positions,
 FROM fielding 
 group by fielding.pos
 
---5.Find the average number of strikeouts per game by decade since 1920. Round the numbers you report to 2 decimal places. Do the same for home runs per game. Do you see any trends?-
+--5.Find the average number of strikeouts per game by decade since 1920. Round the numbers you report to 2 decimal places. Do the same for home runs per game. Do you see any trends?
+SELECT round(avg(SO)) AS BStrikeouts, round(avg(SOA)) AS PStrikeouts, round(avg(HR)) AS Homeruns , G AS Games, yearid AS year
+From teams as t
+where yearid = 1920
+group by t.hr, t.g, t.yearid
+
+--6.Find the player who had the most success stealing bases in 2016, where __success__ is measured as the percentage of stolen base attempts which are successful. (A stolen base attempt results either in a stolen base or being caught stealing.) Consider only players who attempted _at least_ 20 stolen bases.
+
+Select b.sb, b.cs, b.sb/b.cs AS successful_stolen_bases, p.namefirst, p.namelast
+From batting as b
+join people as p
+on b.playerid = p.playerid
+where b.yearid=2016 and sb>=20
+group by p.namefirst, p.namelast, b.sb, b.cs 
+order by successful_stolen_bases desc
+
+
+
+
+
 
 
 
