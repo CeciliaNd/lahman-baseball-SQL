@@ -62,7 +62,31 @@ where wswin= 'Y' and yearid between '1970' and '2016'
 group by teamid, yearid, wswin
 order by max_wins desc
 
---8
+--8.Using the attendance figures from the homegames table, find the teams and parks which had the top 5 average attendance per game in 2016 (where average attendance is defined as total attendance divided by number of games). Only consider parks where there were at least 10 games played. Report the park name, team name, and average attendance. Repeat for the lowest 5 average attendance.
+
+select hg.team, p.park_name, avg(hg.attendance), hg.games
+from homegames as hg
+join parks as p
+on p.park = hg.park
+join teams as t
+on t.teamid = t.teamid
+where team IN
+    (select hg.team
+    from teams) And games > 10
+group by hg.team, p.park_name, hg.games
+Limit 5
+
+--9.Which managers have won the TSN Manager of the Year award in both the National League (NL) and the American League (AL)? Give their full name and the teams that they were managing when they won the award.
+select asm.awardid,asm.votesfirst,am.playerid
+from managershalf as ms
+join awardsmanagers as am
+on ms.playerid = am.playerid
+join awardssharemanagers as asm
+on am.yearid = asm.yearid
+
+
+
+
 
 
 
